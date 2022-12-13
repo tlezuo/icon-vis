@@ -15,7 +15,7 @@ import pandas as pd
 import datetime as dt
 
 # #own scripts
-import locfunctions as lf
+import utilities_tlezuo.locfunctions as lf
 import varfunctions as vf
 from timefunctions import *
 
