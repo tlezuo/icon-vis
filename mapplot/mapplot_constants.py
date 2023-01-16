@@ -16,7 +16,8 @@ import datetime as dt
 import numpy as np
 
 # #own scripts
-import utilities_tlezuo.locfunctions as lf
+sys.path.append('../utilities_tlezuo/')
+import locfunctions as lf
 import varfunctions as vf
 from timefunctions import *
 
@@ -36,7 +37,7 @@ plotpath_base = '/scratch/tlezuo/icon-vis/hor_cross/'
 # decide which areas to plot
 areas_list = []
 # areas_list.extend([lf.icon_domain,lf.eastern_alps,lf.inn_area])
-areas_list=[lf.zoom]
+areas_list=[lf.nies]
 
 # decide which variables to plot
 pvar = vf.HSURF
