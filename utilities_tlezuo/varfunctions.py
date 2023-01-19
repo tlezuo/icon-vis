@@ -77,10 +77,16 @@ TKE = Variable_dictionary('TKE','Turbulent Kinetic Energy','[J]', 0,1000,50, 'sp
 TH = Variable_dictionary('TH', 'Potential Temperature', '[°K]', 270, 295, 5, 'YlOrRd',80,270, 295, 5)
 TD = Variable_dictionary('TD', 'Dewpoint Temperature', '[°K]', 270, 295, 5, 'YlOrRd',80,270, 295, 5)
 
-# fiff vars
+# diff vars
 TH_diff = Variable_dictionary('TH_diff', 'Potential Temperature change (hourly normalized)', '[°K/h]', -7, 7, 0.5, 'YlOrRd',80,270, 295, 5)
 T_diff = Variable_dictionary('T_diff', 'Temperature change (hourly normalized)', '[°K/h]', -7, 7, 0.5, 'YlOrRd',80,270, 295, 5)
 VEL_diff = Variable_dictionary('VEL_diff', 'Wind speed change (hourly normalized)', '[°K/h]', -7, 7, 0.5, 'YlOrRd',80,270, 295, 5)
+
+# gradients
+TH_grad = Variable_dictionary('TH_grad', 'Potential T gradient (Munich-Kolsass)', '[°K/100km]', -6, 6, 0.5, 'seismic',80,270, 295, 5)
+T_grad = Variable_dictionary('T_grad', 'T gradient (Munich-Kolsass)', '[°K/100km]', -6, 6, 0.5, 'seismic',80,270, 295, 5)
+P_grad = Variable_dictionary('P_grad', 'Pressure gradient (Munich-Kolsass)', '[hPa/100km]', -2, 2, 0.2, 'BrBG',80,270, 295, 5)
+VEL_grad = Variable_dictionary('VEL_grad', 'Velocity gradient (Munich-Kolsass)', '[ms/100km]', -6, 6, 0.5, 'PRGn',80,270, 295, 5)
 
 # Radiation
 LW_d = Variable_dictionary('lw_down', 'Incoming longwave radiation', '[W/m2]', 0, 200, 0.5, 'YlOrRd',80,270, 295, 5)

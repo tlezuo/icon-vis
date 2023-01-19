@@ -59,11 +59,11 @@ ven = Point_coordinates('ven','Venice','k','.',45.33,12.27,0,0)
 # iun
 iun = Point_coordinates('iun','stat Universität','gold',"$u$",47.2642889,11.3861614,0,0)
 # ifl station + rs
-ifl = Point_coordinates('ifl','Station & Radiosounding Innsbruck Airport','gold',"$f$",47.25846,11.3521825,579,808260)
-ifl_stat = Station_metadata('ifl','Station & Radiosounding Innsbruck Airport',47.25846,11.3521825,579,206,{})
+ifl = Point_coordinates('ifl','Innsbruck Airport','gold',"$f$",47.25846,11.3521825,579,808260)
+ifl_stat = Station_metadata('ifl','Innsbruck Airport',47.25846,11.3521825,579,206,{})
 # mu rs
-murs = Point_coordinates('murs','Radiosounding Munich','gold',".",48.25,11.55,492,753969)
-murs_stat = Station_metadata('murs','Radiosounding Munich',48.25,11.55,492,206,{})
+murs = Point_coordinates('murs','Munich','gold',".",48.25,11.55,492,753969)
+murs_stat = Station_metadata('murs','Munich',48.25,11.55,492,206,{})
 
 ## ibox stations
 # Hoch
