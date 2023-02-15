@@ -39,7 +39,7 @@ QV_2M = Variable_dictionary('qv_2m','2 m specific humidity','[g/kg]', 0,0.016, 0
 # 10m wind
 U_10M = Variable_dictionary('u_10m','10m zonal wind','[m/s]',-20,20,2,'RdPu',80,-30,30,2)
 V_10M = Variable_dictionary('v_10m','10m meridional wind','[m/s]',-20,20,2,'RdPu',80,-30,30,2)
-VEL_10M = Variable_dictionary('VEL_10M','10 m wind speed','[m/s]',0,8.5,1,'RdPu',80,0,41,1)
+VEL_10M = Variable_dictionary('VEL_10M','10 m wind speed','[m/s]',0,11,1,'RdPu',80,0,41,1)
 DIR_10M = Variable_dictionary('DIR_10M','10 m wind  direction','[°]',0,361,10,'viridis',80,0,361,10)
 
 # tke
@@ -93,6 +93,23 @@ LW_d = Variable_dictionary('lw_down', 'Incoming longwave radiation', '[W/m2]', 0
 LW_u = Variable_dictionary('lw_up', 'Outgoing longwave radiation', '[W/m2]', 0, 200, 0.5, 'YlOrRd',80,270, 295, 5)
 SW_d = Variable_dictionary('sw_down', 'Incoming shortwave radiation', '[W/m2]', 0, 200, 0.5, 'YlOrRd',80,270, 295, 5)
 SW_u = Variable_dictionary('sw_up', 'Outgoing shortwave radiation', '[W/m2]', 0, 200, 0.5, 'YlOrRd',80,270, 295, 5)
+SH_s = Variable_dictionary('shfl_s', 'Surface Sensible Heat Flux', '[W/m2]', -400, 400, 10, 'YlOrRd',80,270, 295, 5)
+LH_s = Variable_dictionary('lhfl_s', 'Surface Latent Heat Flux', '[W/m2]', -400, 400, 5, 'YlOrRd',80,270, 295, 5)
+SWnet_s = Variable_dictionary('sob_s', 'shortwave net flux at surface', '[W/m2]', 0, 801, 5, 'YlOrRd',80,270, 295, 5)
+LWnet_s = Variable_dictionary('thb_s', 'longwave net flux at surface', '[W/m2]', -400, 400, 5, 'YlOrRd',80,270, 295, 5)
+
+# model tendencies
+TKEtend_shear = Variable_dictionary('ddt_tke_hsh', 'TKE tendency horizonzal shear production', '[m2/s3]', -5, 5, 1, 'YlOrRd',80,270, 295, 5)
+TKEtend_conv = Variable_dictionary('ddt_tke_pconv', 'TKE tendency due to sub-grid scale convection', '[m2/s3]', -5, 5, 1, 'YlOrRd',80,270, 295, 5)
+TKEVELtend = Variable_dictionary('ddt_tke', 'tendency of turbulent velocity scale', '[m/s2]', -5, 5, 1, 'YlOrRd',80,270, 295, 5)
+Ttend_clcov = Variable_dictionary('ddt_temp_clcov', 'sgs condensation temperature tendency', '[K/s]', -0.05, 0.05,0.01, 'YlOrRd',80,270, 295, 5)
+Ttend_drag = Variable_dictionary('ddt_temp_drag', 'sso + gwdrag temperature tendency', '[K/s]', -0.05, 0.05,0.01, 'YlOrRd',80,270, 295, 5)
+Ttend_pconv = Variable_dictionary('ddt_temp_pconv', 'convective temperature tendency', '[K/s]', -0.05, 0.05,0.01, 'YlOrRd',80,270, 295, 5)
+Ttend_radlw = Variable_dictionary('ddt_temp_radlw', 'long wave radiative temperature tendency', '[K/s]', -0.05, 0.05,0.01, 'YlOrRd',80,270, 295, 5)
+Ttend_radsw = Variable_dictionary('ddt_temp_radsw', 'short wave radiative temperature tendency', '[K/s]', -0.05, 0.05,0.01, 'YlOrRd',80,270, 295, 5)
+Ttend_turb = Variable_dictionary('ddt_temp_turb', 'turbulence temperature tendency', '[K/s]', -0.05, 0.05,0.01, 'YlOrRd',80,270, 295, 5)
+Ttend_dyn = Variable_dictionary('ddt_temp_dyn', 'dynamical_temperature_tendency', '[K/s]', -0.05, 0.05,0.01, 'YlOrRd',80,270, 295, 5)
+
 ####################################################################
 ## CALC FUNCTIONS ##
 def calculate_wind_vel_from_uv(u, v): # from pp

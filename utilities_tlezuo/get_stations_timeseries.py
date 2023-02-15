@@ -194,6 +194,9 @@ def read_acinn(loc, vars, path_ACINN, start_time,end_time,
                         'cnr4_sw_in_wm2':'sw_down', # RADIAT1
                         'cnr4_sw_out_wm2':'sw_up', # RADIAT1
                         'meantke1':'TKEs', # FLUXL: mean TKE [m2/s2] 1.5m
+                        # 'h1':'shfl_s', # fluxl2: level 1 SH
+                        'h2':'shfl_s', # fluxl2: level 2 SH
+                        'le2':'lhfl_s', # fluxl2: level 2 LH
                         # 'meantke2':'TKE2', # FLUXL: mean TKE [m2/s2] 7.08m
                         'rawdate':'timestamp'},
                 'kols': {
@@ -205,28 +208,41 @@ def read_acinn(loc, vars, path_ACINN, start_time,end_time,
                         'meanu2':'VEL_10M', #FLUXL12: mean rotated and unfiltered u wind component (streamwise): 8.68m
                         'wind_dir2':'DIR_10M', #FLUXL12: wind direction [deg]: 8.68m
                         'meantke1':'TKEs', # FLUXL: mean TKE [m2/s2] 1.5m
-                        'lw_in_wv_avg':'lw_down', # raw
-                        'lw_out_wv_avg':'lw_up', # raw
+                        'lw_in_avg':'lw_down', # raw
+                        'lw_out_avg':'lw_up', # raw
                         'sw_in_mv_avg':'sw_down', # raw
                         'sw_out_mv_avg':'sw_up', # raw
+                        # 'h1':'shfl_s', # fluxl2: level 1 SH
+                        'h1':'shfl_s', # fluxl2: level 2 SH
+                        # 'le1':'lhfl_s', # fluxl2: level 1 LH
+                        'le1':'lhfl_s', # fluxl2: level 2 LH
                         # 'avg_wdir4': 'DIR_10M', #SONIC_2: AVG_WDIR4: 12m wind dir [deg]
                         'rawdate':'timestamp'},
-                'egg': {'ta_avg': 'T_2M',   # RAW: Air temperature, ventilation [°C]
+                'egg': {'tair2': 'T_2M',   # RAW: Air temperature, ventilation [°C]
                         'p_avg': 'P',   # RAW: Air pressure, in loggerbox, not aerated [hPa]
-                        'wind_dir2':'DIR_10M', # FLUXL: wind dir at 5.65m [deg]                        
+                        'wind_dir2':'DIR_10M', # FLUXL: wind dir at 5.65m [deg] 
+                        'meanu2':'VEL_10M', #FLUXL12
+                        'h2':'shfl_s', # fluxl2: level 2 SH
+                        'le2':'lhfl_s', # fluxl2: level 2 LH                           
                         'rawdate':'timestamp'},
-                'weer': {'ta_avg': 'T_2M',   # RAW: Air temperature, ventilation [°C]
+                'weer': {'tair2': 'T_2M',   # RAW: Air temperature, ventilation [°C]
                         'p_avg': 'P',   # RAW: Air pressure, in loggerbox, not aerated [hPa]
-                        'wind_dir2':'DIR_10M', # RAW: wind dir at 5.65m [deg]                        
+                        'wind_dir2':'DIR_10M', # RAW: wind dir at 5.65m [deg]  
+                        'meanu2':'VEL_10M', #FLUXL12                    
                         'cnr4_lw_in_wm2':'lw_down', # RADIAT1
                         'cnr4_lw_out_wm2':'lw_up', # RADIAT1
                         'cnr4_sw_in_wm2':'sw_down', # RADIAT1
-                        'cnr4_sw_out_wm2':'sw_up', # RADIAT1                       
+                        'cnr4_sw_out_wm2':'sw_up', # RADIAT1
+                        'h2':'shfl_s', # fluxl2: level 2 SH
+                        'le2':'lhfl_s', # fluxl2: level 2 LH                           
                         'rawdate':'timestamp'},
-                'terf': {'taact_avg': 'T_2M',  # RAW: Air temperature, ventilation [°C]
+                'terf': {'tair2': 'T_2M',  # RAW: Air temperature, ventilation [°C]
                         'pact': 'P', # RAW: Air pressure, in loggerbox, not aerated [hPa]
                         # 'wind_dir1':'DIR_10M', # RAW: wind dir at 6.12 m [deg]      
-                        'wind_dir2':'DIR_10M', # RAW: wind dir at 11.2 m [deg]                              
+                        'wind_dir2':'DIR_10M', # RAW: wind dir at 11.2 m [deg]  
+                        'meanu2':'VEL_10M', #FLUXL12
+                        'h2':'shfl_s', # fluxl2: level 2 SH
+                        'le2':'lhfl_s', # fluxl2: level 2 LH                            
                         'rawdate':'timestamp'},
                 'arb': {
                         # 'taact_2m_avg': 'T_2M',  # RAW: Air temperature, ventilation [°C] 2m NOT WORKING
@@ -252,7 +268,7 @@ def read_acinn(loc, vars, path_ACINN, start_time,end_time,
     # fin all files
     file_ACINN = glob2.glob(path.join(path_ACINN, f'*{name}*', 'data.csv'))
     # print number of files
-    print(len(file_ACINN))
+    print(str(len(file_ACINN))+' files found for this station')
 
 
     if len(file_ACINN) == 0:
@@ -297,6 +313,11 @@ def read_acinn(loc, vars, path_ACINN, start_time,end_time,
 
     # cut df to relevant variables
     data=data[relevant_vars]
+
     data=data.T.drop_duplicates().T
+    # data = data.loc[:,~data.columns.duplicated()].copy()
+
+    print('columns: '+data.columns)
     # set_trace()
+
     return(data)

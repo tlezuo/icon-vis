@@ -16,86 +16,11 @@ class Area_coordinates:
     lonmax = 0
     locmarks = []
 
-# 2) local coordinates for points
-class Point_coordinates:
-    def __init__(self, shortname, name, color, marker, lat, lon, altitude, iconID):
-        self.short = shortname
-        self.name = name
-        self.color = color
-        self.marker = marker
-        self.lat = lat
-        self.lon = lon
-        self.alt = altitude
-        self.iconID = iconID # gridpoint used in icon for this location
-
-# 3) station metadata
-class Station_metadata:
-    def __init__(self, shortname, name, lat, lon, altitude, altitude_icon, height_dict):
-        self.short = shortname
-        self.name = name
-        self.lat = lat
-        self.lon = lon
-        self.alt = altitude
-        self.iconalt = altitude_icon
-        self.hdict = height_dict # gridpoint used in icon for this location
 
 ####################################################################
 ## COORDINATE SET ##
 # 1) local coordinates for points
-# 1) a) Innsbruck
-inn = Point_coordinates('inn','Innsbruck', 'k','.',47.26,11.42,0,0)
-# Salzburg
-sal = Point_coordinates('sal','Salzburg', 'k','.', 47.79,13.09,0,0)
-# München
-mun = Point_coordinates('mun','Munich','k','.',48.14,11.57,0,0)
-# Bozen
-bz = Point_coordinates('bz','Bozen','k','.', 46.49,11.36,0,0)
-# Verona
-ver = Point_coordinates('ver','Verona', 'k','.',45.43,10.99,0,0)
-# Venice
-ven = Point_coordinates('ven','Venice','k','.',45.33,12.27,0,0)
-
-## meteo stations and rs
-# iun
-iun = Point_coordinates('iun','stat Universität','gold',"$u$",47.2642889,11.3861614,0,0)
-# ifl station + rs
-ifl = Point_coordinates('ifl','Innsbruck Airport','gold',"$f$",47.25846,11.3521825,579,808260)
-ifl_stat = Station_metadata('ifl','Innsbruck Airport',47.25846,11.3521825,579,206,{})
-# mu rs
-murs = Point_coordinates('murs','Munich','gold',".",48.25,11.55,492,753969)
-murs_stat = Station_metadata('murs','Munich',48.25,11.55,492,206,{})
-
-## ibox stations
-# Hoch
-hoch = Point_coordinates('hoch','Hochhaueser','violet',"$h$",47.28755, 11.63122,1009,810547)
-hoch_stat = Station_metadata('hoch','Hochhaueser',47.28755, 11.63122,1009,1114,{'T_2M':6.83,
-                                                                            'VEL_10M':7.08,
-                                                                            'DIR_10M':7.08,
-                                                                            'TKEs':1.50,
-                                                                            'turb2':7.08,
-                                                                            'rad':2.00,
-                                                                            })
-
-# Kols
-kols = Point_coordinates('kols','Kolsass','darkviolet',"$k$",47.305, 11.622,547,810552)
-kols_stat = Station_metadata('kols','Kolsass',47.305, 11.622,547,551,{'T_2M':8.68,#2,4,8.68,16.93
-                                                                            'VEL_10M':8.68, #2,4,6,12
-                                                                            'DIR_10M':8.68,
-                                                                            'TKEs':4.00,
-                                                                            'turb2':8.68,
-                                                                            'turb3':16.93,
-                                                                            'rad':2.00,
-                                                                            })
-
-# Eggen
-egg = Point_coordinates('egg','Eggen','violet',"$e$",47.3165,11.6162,892,810583)
-# Weer
-weer = Point_coordinates('weer','Weerberg','violet',"$w$",47.299,11.672,930,810560)
-# Terf
-terf = Point_coordinates('terf','Terfens','violet',"$t$", 47.325538,11.65247,575,810571)
-# Arb
-arb = Point_coordinates('arb','Arbeser','violet',"$a$",47.320654,11.746592,2015,811094)
-
+# pc_dict = np.load('pc_dict.npy',allow_pickle='TRUE').item()
 
 # 2) area coordinates for hor cross
 # 2)a) icon domain
@@ -106,7 +31,7 @@ icon_domain.lonmin = 1
 icon_domain.latmax = 49.7
 icon_domain.lonmax = 16.3
 icon_domain.locmarks = []
-icon_domain.locmarks.extend([inn,mun,ven])
+icon_domain.locmarks.extend(['inn','mun','ven'])
 
 
 # 2)b) eastern alps
@@ -117,7 +42,7 @@ eastern_alps.lonmin = 9
 eastern_alps.latmax = 49
 eastern_alps.lonmax = 15
 eastern_alps.locmarks = []
-eastern_alps.locmarks.extend([inn,mun,ven,sal,bz,ver])
+eastern_alps.locmarks.extend(['inn','mun','ven','sal','bz','ver'])
 
 # 2)c) innsbruck area
 inn_area = Area_coordinates()
@@ -127,7 +52,7 @@ inn_area.lonmin = 10
 inn_area.latmax = 48
 inn_area.lonmax = 13
 inn_area.locmarks = []
-inn_area.locmarks.extend([inn, hoch, kols, weer, egg, weer, terf, arb, iun, ifl])
+inn_area.locmarks.extend(['inn', 'hoch', 'kols', 'weer', 'egg', 'weer', 'terf', 'arb', 'iun', 'ifl'])
 
 # 2)c) local area
 local_area = Area_coordinates()
@@ -137,7 +62,7 @@ local_area.lonmin = 11
 local_area.latmax = 47.5
 local_area.lonmax = 12
 local_area.locmarks = []
-local_area.locmarks.extend([hoch, kols, weer, egg, weer, terf, arb, iun, ifl])
+local_area.locmarks.extend(['hoch', 'kols', 'weer', 'egg', 'weer', 'terf', 'arb', 'iun', 'ifl'])
 
 # 2)c) domain visualisation
 domain_vis = Area_coordinates()
@@ -147,7 +72,7 @@ domain_vis.lonmin = 0
 domain_vis.latmax = 50
 domain_vis.lonmax = 20
 domain_vis.locmarks = []
-domain_vis.locmarks.extend([inn])
+domain_vis.locmarks.extend(['inn'])
 
 # 2)c) super zoom ifl
 zoom = Area_coordinates()
@@ -157,7 +82,7 @@ zoom.lonmin = 11.2
 zoom.latmax = 47.4
 zoom.lonmax = 11.5
 zoom.locmarks = []
-zoom.locmarks.extend([ifl])
+zoom.locmarks.extend(['ifl'])
 
 # 2)c) local local area: only stations visible
 stat_only = Area_coordinates()
@@ -167,7 +92,7 @@ stat_only.lonmin = 11.22
 stat_only.latmax = 47.38
 stat_only.lonmax = 11.81
 stat_only.locmarks = []
-stat_only.locmarks.extend([hoch, kols, weer, egg, weer, terf, arb, iun, ifl])
+stat_only.locmarks.extend(['hoch', 'kols', 'weer', 'egg', 'weer', 'terf', 'arb', 'iun', 'ifl'])
 
 # 2)c) local local area: only stations visible
 nies = Area_coordinates()
@@ -177,9 +102,6 @@ nies.lonmin = 7.58
 nies.latmax = 46.69
 nies.lonmax = 7.71
 nies.locmarks = []
-
-
-
 
 ####################################################################
 ## COORDINATE SET ##
