@@ -40,7 +40,7 @@ QV_2M = Variable_dictionary('qv_2m','2 m specific humidity','[g/kg]', 0,0.016, 0
 U_10M = Variable_dictionary('u_10m','10m zonal wind','[m/s]',-20,20,2,'RdPu',80,-30,30,2)
 V_10M = Variable_dictionary('v_10m','10m meridional wind','[m/s]',-20,20,2,'RdPu',80,-30,30,2)
 VEL_10M = Variable_dictionary('VEL_10M','10 m wind speed','[m/s]',0,11,1,'RdPu',80,0,41,1)
-DIR_10M = Variable_dictionary('DIR_10M','10 m wind  direction','[°]',0,361,10,'viridis',80,0,361,10)
+DIR_10M = Variable_dictionary('DIR_10M','10 m wind  direction','[°]',0,370,10,'viridis',80,0,361,10)
 
 # tke
 TKEs = Variable_dictionary('TKEs','Turbulent Kinetic Energy','[J]', 0,1,0.1, 'spring',81,0,1000,50)
@@ -56,11 +56,12 @@ ALT = Variable_dictionary('ALT', 'Altitude', '[m AMSL]', 200, 5000, 250, 'RdYlBu
 T = Variable_dictionary('T', 'Temperature', '[°K]', 285,305.5,1, 'YlOrRd',80,270, 311, 1) #levels for vertical
 
 # Pressure
-P = Variable_dictionary('P', 'Pressure', '[hPa]', 900, 1000, 10, 'RdYlBu',80,300,1000,50)
+P = Variable_dictionary('P', 'Pressure', '[hPa]', 920, 980, 10, 'RdYlBu',80,300,1000,50)
+
 
 # Wind
-U = Variable_dictionary('U','Zonal wind speed','[m/s]',-20,20,2,'RdPu',80,-30,30,2)
-V = Variable_dictionary('V','Meridional wind speed','[m/s]',-20,20,2,'RdPu',80,-30,30,2)
+U = Variable_dictionary('U','Zonal wind speed','[m/s]',-20,20,2,'PiYG_r',80,-30,30,2)
+V = Variable_dictionary('V','Meridional wind speed','[m/s]',-20,20,2,'PiYG_r',80,-30,30,2)
 W = Variable_dictionary('W','Vertical wind speed','[m/s]',-2,2,0.25,'coolwarm',81,-3,3,0.25)
 VEL = Variable_dictionary('VEL','Wind speed','[m/s]',0,15,1,'RdPu',80,0,41,1)
 DIR = Variable_dictionary('DIR','Wind direction','[°]',0,361,10,'viridis',80,0,361,10)

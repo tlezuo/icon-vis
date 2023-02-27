@@ -51,7 +51,7 @@ with open ('../utilities_tlezuo/pc_short_list','rb') as a:
 ## DECIDE ##
 
 # RUN
-run = 'RUN3_noconv'
+run = 'RUN4_cosmolev'
 filepath = '/store/s83/tlezuo/'+run+'/out_std/'
 savepath = '/users/tlezuo/icon-vis/data/data_std/'
 
@@ -85,8 +85,8 @@ std_htd_data = std_htd_data.assign(DIR=vf.calculate_wind_dir_from_uv(std_htd_dat
 std_htd_data['P'] = std_htd_data['P']/100
 
 # 2d
-std_htd_data = std_htd_data.assign(VEL_10m=vf.calculate_wind_vel_from_uv(std_htd_data['u_10m'],std_htd_data['v_10m']))
-std_htd_data = std_htd_data.assign(DIR_10m=vf.calculate_wind_dir_from_uv(std_htd_data['u_10m'],std_htd_data['v_10m']))
+std_htd_data = std_htd_data.assign(VEL_10M=vf.calculate_wind_vel_from_uv(std_htd_data['u_10m'],std_htd_data['v_10m']))
+std_htd_data = std_htd_data.assign(DIR_10M=vf.calculate_wind_dir_from_uv(std_htd_data['u_10m'],std_htd_data['v_10m']))
 
 ##  SAVE ##
 std_htd_data.to_netcdf(savepath+'std_htd_data_'+run+'.nc')

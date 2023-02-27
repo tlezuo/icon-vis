@@ -95,5 +95,5 @@ sumbl_htd_data=hfbl_htd_data_hfblvert.groupby("time.hour").sum(dim='time')*10
 ## SAVE ##
 # hfbl_htd_data.to_netcdf(savepath+'hfbl_htd_data_'+run+'.nc')
 # hfbl_ts_data.to_netcdf(savepath+'hfbl_ts_data_'+run+'.nc')
-sumbl_ts_data.to_netcdf(savepath+'sumbl_htd_data_'+run+'.nc')
-sumbl_htd_data.to_netcdf(savepath+'sumbl_htd_data_'+run+'.nc')
+sumbl_ts_data.to_netcdf(savepath+'sumbl_ts_data_'+run+'.nc')
+# sumbl_htd_data.to_netcdf(savepath+'sumbl_htd_data_'+run+'.nc')

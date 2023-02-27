@@ -315,7 +315,7 @@ def read_acinn(loc, vars, path_ACINN, start_time,end_time,
     data=data[relevant_vars]
 
     data=data.T.drop_duplicates().T
-    # data = data.loc[:,~data.columns.duplicated()].copy()
+    data = data.loc[:,~data.columns.duplicated()].copy()
 
     print('columns: '+data.columns)
     # set_trace()

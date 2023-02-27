@@ -16,6 +16,19 @@ class Area_coordinates:
     lonmax = 0
     locmarks = []
 
+# 2) vertical cross sections
+class VC_coordinates:
+    def __init__(self, name, short, dist, latmin, lonmin, namemin, latmax, lonmax, namemax):
+        self.name = name
+        self.short = short
+        self.dist = dist
+        self.latmin = latmin
+        self.lonmin = lonmin
+        self.namemin = namemin
+        self.latmax = latmax
+        self.lonmax = lonmax
+        self.namemax = namemax
+    
 
 ####################################################################
 ## COORDINATE SET ##
@@ -102,6 +115,11 @@ nies.lonmin = 7.58
 nies.latmax = 46.69
 nies.lonmax = 7.71
 nies.locmarks = []
+
+# 2) vertical cross sections
+VC_Kols = VC_coordinates('Cross Valley Section at Kolsass' , 'VC_Kols', 45,
+                         47.50, 11.50, 'Simmering',
+                         47.12,11.77,'Tux', )
 
 ####################################################################
 ## COORDINATE SET ##

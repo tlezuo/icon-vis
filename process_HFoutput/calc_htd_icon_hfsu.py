@@ -54,7 +54,7 @@ with open ('../utilities_tlezuo/pc_short_list','rb') as a:
 ## DECIDE ##
 
 # RUN
-run = 'RUN3_noconv'
+run = 'RUN2_reference'
 filepath = '/store/s83/tlezuo/'+run+'/out_hfsu/'
 savepath = '/users/tlezuo/icon-vis/data/data_hfsu/'
 
@@ -80,8 +80,8 @@ data=xarray.open_mfdataset(filepath+'lfffhfsu*', parallel=True)
 # htd timeseries = selecting our locations
 hfsu_htd_data = data.sel(ncells=pc_iconID_list,drop=False)
 # calculate new vars
-hfsu_htd_data = hfsu_htd_data.assign(VEL_10m=vf.calculate_wind_vel_from_uv(hfsu_htd_data['u_10m'],hfsu_htd_data['v_10m']))
-hfsu_htd_data = hfsu_htd_data.assign(DIR_10m=vf.calculate_wind_dir_from_uv(hfsu_htd_data['u_10m'],hfsu_htd_data['v_10m']))
+hfsu_htd_data = hfsu_htd_data.assign(VEL_10M=vf.calculate_wind_vel_from_uv(hfsu_htd_data['u_10m'],hfsu_htd_data['v_10m']))
+hfsu_htd_data = hfsu_htd_data.assign(DIR_10M=vf.calculate_wind_dir_from_uv(hfsu_htd_data['u_10m'],hfsu_htd_data['v_10m']))
 
 # surface timeseries
 hfsu_ts_data = hfsu_htd_data.sel(height_4=80)
@@ -89,7 +89,7 @@ hfsu_ts_data = hfsu_htd_data.sel(height_4=80)
 # integrated timeseries 
 # intsu_htd_data=hfsu_htd_data.groupby("time.hour").mean(dim='time')
 # RE-calculate wind dir
-# intsu_htd_data = intsu_htd_data.assign(DIR_10m=vf.calculate_wind_dir_from_uv(intsu_htd_data['u_10m'],intsu_htd_data['v_10m']))
+# intsu_htd_data = intsu_htd_data.assign(DIR_10M=vf.calculate_wind_dir_from_uv(intsu_htd_data['u_10m'],intsu_htd_data['v_10m']))
 
 ###############################################################################################
 ## SAVE ##
