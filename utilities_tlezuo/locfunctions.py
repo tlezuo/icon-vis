@@ -117,9 +117,25 @@ nies.lonmax = 7.71
 nies.locmarks = []
 
 # 2) vertical cross sections
-VC_Kols = VC_coordinates('Cross Valley Section at Kolsass' , 'VC_Kols', 45,
+VCS_kols = VC_coordinates('Cross Valley Section at Kolsass' , 'VCS_kols', 45,
                          47.50, 11.50, 'Simmering',
                          47.12,11.77,'Tux', )
+
+VCS_up_valley = VC_coordinates('Cross Valley Section in upper Inn Valley' , 'VCS_up', 100,
+                         47.46831375, 11.46113725, '__',
+                         47.09595825,11.52701275,'__', )
+
+VCS_down_valley = VC_coordinates('Cross Valley Section in lower Inn Valley' , 'VCS_down', 100,
+                         47.499804, 11.642547, '__',
+                         47.227952,11.802475,'__', )
+
+VCS_lidars1 = VC_coordinates('Cross Valley Section along Lidar VCS' , 'VCS_lidars1', 100,
+                         47.33668, 11.6024, 'Eggen',
+                         47.305290,11.622231,'Weer', )
+
+VCS_lidars2 = VC_coordinates('Cross Valley Section along Lidar VCS' , 'VCS_lidasr2', 100,
+                         47.305290,11.622231,'Weer', 
+                         47.27108, 11.63841, 'Hoch' )
 
 ####################################################################
 ## COORDINATE SET ##
