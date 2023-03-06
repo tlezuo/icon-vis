@@ -210,8 +210,8 @@ def read_acinn(loc, vars, path_ACINN, start_time,end_time,
                         'meantke1':'TKEs', # FLUXL: mean TKE [m2/s2] 1.5m
                         'lw_in_avg':'lw_down', # raw
                         'lw_out_avg':'lw_up', # raw
-                        'sw_in_mv_avg':'sw_down', # raw
-                        'sw_out_mv_avg':'sw_up', # raw
+                        'sw_in_avg':'sw_down', # raw
+                        'sw_out_avg':'sw_up', # raw
                         # 'h1':'shfl_s', # fluxl2: level 1 SH
                         'h1':'shfl_s', # fluxl2: level 2 SH
                         # 'le1':'lhfl_s', # fluxl2: level 1 LH

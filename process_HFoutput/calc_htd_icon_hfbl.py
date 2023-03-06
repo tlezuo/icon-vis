@@ -54,7 +54,7 @@ with open ('../utilities_tlezuo/pc_short_list','rb') as a:
 ## DECIDE ##
 
 # RUN
-run = 'RUN3_noconv'
+run = 'RUN2_reference'
 filepath = '/store/s83/tlezuo/'+run+'/out_hfbl/'
 savepath = '/users/tlezuo/icon-vis/data/data_hfbl/'
 
@@ -82,18 +82,24 @@ hfbl_htd_data = data.sel(ncells=pc_iconID_list,drop=False)
 hfbl_ts_data = hfbl_htd_data.sel(height=80, height_2 = 80)
 
 # surface timeseries integrated: sum of tendencies each hour *10s 
+ # OLD: *10s at the end = wrong weightening of momentanous tendencies
 sumbl_ts_data=hfbl_ts_data.groupby("time.hour").sum(dim='time')*10
+# NEW: *10s at the beginning = correct weightening
+hfbl_ts_data_p10s = hfbl_ts_data*10
+sumbl_ts_data=hfbl_ts_data_p10s.groupby("time.hour").sum(dim='time')
 
 # htd timeseries integrated
 # only for 3 rs and lidar locations
 pc_short_list_hfblvert = ['ifl','kols','murs']
 pc_iconID_list_hfblvert = [17,12,18] # these are the new indices in the subset (pc_dict[kols].subsetID = 12)
 hfbl_htd_data_hfblvert = hfbl_htd_data.sel(ncells=pc_iconID_list_hfblvert,drop=False)
-sumbl_htd_data=hfbl_htd_data_hfblvert.groupby("time.hour").sum(dim='time')*10
+# sumbl_htd_data=hfbl_htd_data_hfblvert.groupby("time.hour").sum(dim='time')*10
+hfbl_htd_data_p10s = hfbl_htd_data*10
+sumbl_htd_data=hfbl_htd_data_p10s.groupby("time.hour").sum(dim='time')
 
 ###############################################################################################
 ## SAVE ##
 # hfbl_htd_data.to_netcdf(savepath+'hfbl_htd_data_'+run+'.nc')
 # hfbl_ts_data.to_netcdf(savepath+'hfbl_ts_data_'+run+'.nc')
-sumbl_ts_data.to_netcdf(savepath+'sumbl_ts_data_'+run+'.nc')
-# sumbl_htd_data.to_netcdf(savepath+'sumbl_htd_data_'+run+'.nc')
+sumbl_ts_data.to_netcdf(savepath+'sumbl_ts_data_new_'+run+'.nc')
+sumbl_htd_data.to_netcdf(savepath+'sumbl_htd_data_new_'+run+'.nc')

@@ -1,2 +1,56 @@
 INFO:numexpr.utils:Note: NumExpr detected 40 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
 INFO:numexpr.utils:NumExpr defaulting to 8 threads.
+Traceback (most recent call last):
+  File "/users/tlezuo/icon-vis/process_HFoutput/calc_htd_icon_hfbl.py", line 76, in <module>
+    data=xarray.open_mfdataset(filepath+'lfffhfbl*', parallel=True)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/backends/api.py", line 916, in open_mfdataset
+    datasets, closers = dask.compute(datasets, closers)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/dask/base.py", line 600, in compute
+    results = schedule(dsk, keys, **kwargs)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/dask/threaded.py", line 89, in get
+    results = get_async(
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/dask/local.py", line 511, in get_async
+    raise_exception(exc, tb)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/dask/local.py", line 319, in reraise
+    raise exc
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/dask/local.py", line 224, in execute_task
+    result = _execute_task(task, data)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/dask/core.py", line 119, in _execute_task
+    return func(*(_execute_task(a, cache) for a in args))
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/dask/utils.py", line 71, in apply
+    return func(*args, **kwargs)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/backends/api.py", line 495, in open_dataset
+    backend_ds = backend.open_dataset(
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/backends/netCDF4_.py", line 564, in open_dataset
+    ds = store_entrypoint.open_dataset(
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/backends/store.py", line 39, in open_dataset
+    ds = Dataset(vars, attrs=attrs)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/core/dataset.py", line 751, in __init__
+    variables, coord_names, dims, indexes, _ = merge_data_and_coords(
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/core/merge.py", line 488, in merge_data_and_coords
+    return merge_core(
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/core/merge.py", line 637, in merge_core
+    collected = collect_variables_and_indexes(aligned)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/core/merge.py", line 296, in collect_variables_and_indexes
+    variable = as_variable(variable, name=name)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/core/variable.py", line 163, in as_variable
+    obj = obj.to_index_variable()
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/core/variable.py", line 535, in to_index_variable
+    return IndexVariable(
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/core/variable.py", line 2614, in __init__
+    self._data = PandasIndexingAdapter(self._data)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/core/indexing.py", line 1271, in __init__
+    self.array = utils.safe_cast_to_index(array)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/core/utils.py", line 117, in safe_cast_to_index
+    index = pd.Index(np.asarray(array), **kwargs)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/core/indexing.py", line 422, in __array__
+    return np.asarray(array[self.key], dtype=None)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/coding/variables.py", line 70, in __array__
+    return self.func(self.array)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/coding/times.py", line 240, in decode_cf_datetime
+    dates = _decode_datetime_with_pandas(flat_num_dates, units, calendar)
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/xarray/coding/times.py", line 196, in _decode_datetime_with_pandas
+    pd.to_timedelta(flat_num_dates.min(), delta) + ref_date
+  File "/scratch/tlezuo/miniconda3/envs/psyplot/lib/python3.9/site-packages/numpy/core/_methods.py", line 44, in _amin
+    return umr_minimum(a, axis, None, out, keepdims, initial, where)
+ValueError: zero-size array to reduction operation minimum which has no identity
