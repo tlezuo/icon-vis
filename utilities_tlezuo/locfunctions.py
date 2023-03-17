@@ -60,10 +60,10 @@ eastern_alps.locmarks.extend(['inn','mun','ven','sal','bz','ver'])
 # 2)c) innsbruck area
 inn_area = Area_coordinates()
 inn_area.name = 'inn_area'
-inn_area.latmin = 46.5
+inn_area.latmin = 46.75
 inn_area.lonmin = 10
-inn_area.latmax = 48
-inn_area.lonmax = 13
+inn_area.latmax = 48.3
+inn_area.lonmax = 12.7
 inn_area.locmarks = []
 inn_area.locmarks.extend(['inn', 'hoch', 'kols', 'weer', 'egg', 'weer', 'terf', 'arb', 'iun', 'ifl'])
 
@@ -117,25 +117,78 @@ nies.lonmax = 7.71
 nies.locmarks = []
 
 # 2) vertical cross sections
-VCS_kols = VC_coordinates('Cross Valley Section at Kolsass' , 'VCS_kols', 45,
+# MY OWN
+VCS_kols = VC_coordinates('VCS at Kolsass' , 'VCS_KOL', 45,
                          47.50, 11.50, 'Simmering',
-                         47.12,11.77,'Tux', )
+                         47.095102, 11.721242, 'S', )
+VCS_alp = VC_coordinates('VCS at Alpbach' , 'VCS_ALP', 45,
+                         47.643407, 11.743848, 'Kreuth',
+                         47.219784, 12.180235,'Krimml', )
+VCS_hai = VC_coordinates('VCS at Haiming' , 'VCS_HAI', 45,
+                         47.418938, 10.989080, 'Zugspitze',
+                         47.034280, 11.134006,'Stubaier Gletscher', )
+VCS_kuf = VC_coordinates('VCS at Kufstein' , 'VCS_KUF', 45,
+                         47.657884, 11.944264, 'Ruchenkopf',
+                         47.516713, 12.426752,'St Johann', )
+VCS_border = VC_coordinates('VCS at border' , 'VCS_Border', 45,
+                         47.720323, 11.867407, 'Schielersee',
+                         47.730065, 12.463968,'Unterwössen', )
 
-VCS_up_valley = VC_coordinates('Cross Valley Section in upper Inn Valley' , 'VCS_up', 100,
+# from Toni
+VCS_up_valley = VC_coordinates('VCS in upper Inn Valley' , 'VCS_up', 100,
                          47.46831375, 11.46113725, '__',
                          47.09595825,11.52701275,'__', )
-
-VCS_down_valley = VC_coordinates('Cross Valley Section in lower Inn Valley' , 'VCS_down', 100,
+VCS_down_valley = VC_coordinates('VCS in lower Inn Valley' , 'VCS_down', 100,
                          47.499804, 11.642547, '__',
                          47.227952,11.802475,'__', )
 
+## LIDARS VCS, from Toni
 VCS_lidars1 = VC_coordinates('Cross Valley Section along Lidar VCS' , 'VCS_lidars1', 100,
                          47.33668, 11.6024, 'Eggen',
                          47.305290,11.622231,'Weer', )
-
-VCS_lidars2 = VC_coordinates('Cross Valley Section along Lidar VCS' , 'VCS_lidasr2', 100,
+VCS_lidars2 = VC_coordinates('Cross Valley Section along Lidar VCS' , 'VCS_lidars2', 100,
                          47.305290,11.622231,'Weer', 
                          47.27108, 11.63841, 'Hoch' )
+VCS_lidars_full = VC_coordinates('VCS Lidar' , 'VCS_lidars_full', 100,
+                          47.33668, 11.6024, 'Eggen', 
+                         47.27108, 11.63841, 'Hoch' )
+
+## ALONG VALLEY, from TONI
+VCS_av1 = VC_coordinates('VCS along valley' , 'VCS_av1', 100,
+                        47.311373, 11.063994, 'A', 
+                        47.241373,  11.383994, 'B' )
+VCS_av2 = VC_coordinates('VCS along valley' , 'VCS_av2', 100,
+                        47.241373,  11.383994, 'B',
+                        47.305290, 11.622231, 'Kols', )
+VCS_av3 = VC_coordinates('VCS along valley' , 'VCS_av3', 100,
+                        47.305290, 11.622231, 'Kols', 
+                        47.425023,  11.843750, 'C',)
+VCS_av4 = VC_coordinates('VCS along valley' , 'VCS_av4', 100,
+                        47.425023,  11.843750, 'C',
+                        47.515023,  12.083750, 'D', )
+VCS_av5 = VC_coordinates('VCS along valley' , 'VCS_av5', 100,
+                        47.515023,  12.083750, 'D', 
+                        47.635023,  12.193750, 'E',)
+VCS_av6 = VC_coordinates('VCS along valley' , 'VCS_av6', 100,
+                        47.635023,  12.193750, 'E',
+                        47.85023, 12.103750, 'F', )
+VCS_av_full = VC_coordinates('VCS along valley' , 'VCS_av_full', 100,
+                        47.311373, 11.063994, 'A', 
+                        47.85023, 12.103750, 'F', )
+VCS_av_full_T = VC_coordinates('VCS along valley' , 'VCS_AV', 100,
+                        47.241373,  11.383994, 'B', 
+                        47.515023,  12.083750, 'D', )
+
+## ALPINE PUMPING, from Toni
+VCS_ap1 = VC_coordinates('VCS N-S alpine pumping' , 'VCS_ap1', 100,
+                        47.095102, 11.721242, 'S', 
+                        47.305290, 11.622231, 'Kols', )
+VCS_ap2 = VC_coordinates('VCS N-S alpine pumping' , 'VCS_ap2', 100,
+                        47.305290, 11.622231, 'Kols', 
+                        47.861014, 11.271361, 'N', )
+VCS_ap_full = VC_coordinates('VCS N-S alpine pumping' , 'VCS_ap_full', 100,
+                        47.095102, 11.721242, 'S', 
+                        47.861014, 11.271361, 'N', )
 
 ####################################################################
 ## COORDINATE SET ##

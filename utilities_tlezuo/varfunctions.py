@@ -62,9 +62,11 @@ P = Variable_dictionary('P', 'Pressure', '[hPa]', 920, 980, 10, 'RdYlBu',80,300,
 # Wind
 U = Variable_dictionary('U','Zonal wind speed','[m/s]',-20,20,2,'PiYG_r',80,-30,30,2)
 V = Variable_dictionary('V','Meridional wind speed','[m/s]',-20,20,2,'PiYG_r',80,-30,30,2)
-W = Variable_dictionary('W','Vertical wind speed','[m/s]',-2,2,0.25,'coolwarm',81,-3,3,0.25)
+W = Variable_dictionary('W','Vertical wind speed','[m/s]',-1,1,0.25,'coolwarm',81,-3,3,0.25)
 VEL = Variable_dictionary('VEL','Wind speed','[m/s]',0,15,1,'RdPu',80,0,41,1)
 DIR = Variable_dictionary('DIR','Wind direction','[°]',0,361,10,'viridis',80,0,361,10)
+VEL_parallel = Variable_dictionary('VEL_parallel','Wind speed parallel to VCS','[m/s]',-10,10.1,1,'PuOr',80,0,41,1)
+VEL_normal = Variable_dictionary('VEL_normal','Wind speed normal to VCS','[m/s]',-10,10.1,1,'PiYG_r',80,0,361,10)
 
 # Humidity
 QV = Variable_dictionary('QV','Specific Humidity','[kg/kg]', 0,0.016, 0.0005, 'YlGnBu',80,0,0.016, 0.0005)
