@@ -1,4 +1,5 @@
 #**********************************************************************************
+#**********************************************************************************
 #Fuction to create cross-sections using ICON native grid
 #
 #Julian Quimbayo Duarte
@@ -11,6 +12,7 @@ import xarray as xr
 
 import numpy as np
 import numpy.ma as ma
+import pandas as pd
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -24,7 +26,6 @@ import cartopy.io.shapereader as shpreader
 
 import math
 import csv  
-import pandas as pd
 
 from scipy import interpolate
 from scipy.interpolate import griddata
@@ -41,6 +42,177 @@ import timefunctions as tf
 import get_stations_timeseries as gs
 
 ################################################ JULIAN FUNCTIONS #######################################
+#*************************************************************************************************
+#-- function to get the closer gp to coordinate
+def get_indices(lats,lons,radius,LATX , LONX ):
+    """ get_indices takes latitude latx and longitude lonx and
+    returns the indices indexi and indexj of the nearest grid cell in a 2D array"""
+    DISTANCE_TO_X = np.sqrt((lats - LATX)**2 + (lons - LONX)**2)
+    indices = np.where(DISTANCE_TO_X < radius )
+    return indices[0]
+    pass
+#*************************************************************************************************
+#-- GEt the distance between two points
+def haversine(lat1, lon1, lat2, lon2):
+    rad=math.pi/180
+    dlat=lat2-lat1
+    dlon=lon2-lon1
+    R=6372.795477598
+    a=(math.sin(rad*dlat/2))**2 + math.cos(rad*lat1)*math.cos(rad*lat2)*(math.sin(rad*dlon/2))**2
+    distancia=2*R*math.asin(math.sqrt(a))
+    return distancia
+#*************************************************************************************************
+#-- Getting the cross-section from the native ICON grid (only one interpolation)
+#-- initial and final point for the cross-section
+
+def cross_section(A, B, Step, with_file, icon_gp_file,clon,clat,dx,topo,var,z,interp_meth):
+    #-- def some arrays
+    X = np.empty(10000)
+    Y = np.empty(10000)
+
+    #-- Def the line and points between coordinates (A and B points)
+    #-- geo points start and end
+    x1, y1 = A
+    x2, y2 = B
+
+    #-- the increment step (higher = faster)
+    STEP = Step #-- Step between points
+    
+    print(str(x1)+str(x2))
+    # print(str(x1),str(x2))
+    if x1 > x2:           # x2 must be the bigger one here
+        print('x1>x2')
+        x1, x2 = x2, x1
+        y1, y2 = y2, y1
+    #-- getting the diff coordinates
+        for i in range(int((x2-x1)/STEP) + 1):
+            #print(i)
+            x = x1 + i*STEP
+            X[i] = x
+            y = (y1-y2)/(x1-x2) * (x - x1) + y1
+            Y[i] = y
+    elif x1 < x2:
+        print('x1<x2')
+        # no need to change x1 with x2
+    #-- getting the diff coordinates
+        for i in range(int((x2-x1)/STEP) + 1):
+            #print(i)
+            x = x1 + i*STEP
+            X[i] = x
+            y = (y1-y2)/(x1-x2) * (x - x1) + y1
+            Y[i] = y
+    elif x1 == x2:
+        print('x1=x2 ')
+        x1, x2 = x2, x1
+        y1, y2 = y2, y1
+        for i in range(int((y2-y1)/STEP) + 1):
+            y = y1 + i*STEP
+            Y[i] = y
+            x = x1
+            X[i] = x
+
+    i = int((y2-y1)/STEP) + 1
+    #-- storing the coordinates in an array
+    coords_in_line = np.empty([i+1,2])
+    coords_in_line[:-1,1] = X[:i]
+    coords_in_line[:-1,0] = Y[:i]
+#
+    #-- cross section lat lon points
+    coords_in_line[-1,1] = B[0]
+    coords_in_line[-1,0] = B[1]
+    print('length of points array is '+str(len(coords_in_line)))
+
+    #-- saving the points to check them in G earth
+    np.savetxt('line_coord.csv', coords_in_line, delimiter=",")
+    
+    if with_file == 'TRUE':
+    #-- Reading the files if it is provided
+        with open(icon_gp_file) as file_name:
+            points_icon = np.loadtxt(file_name, delimiter=",")
+    
+        ccoords = np.column_stack((clon,clat))
+        coords_in_line = np.empty([len(points_icon)+1,2])
+        points_icon_coords = np.empty_like(coords_in_line)
+    
+    else:
+    #-- Getting the closer points in ICON grid
+    #-- def some arrays
+        ccoords = np.column_stack((clon,clat))
+        dist = np.empty_like(clon)
+        points_icon = np.empty_like(coords_in_line)
+        points_icon_coords = np.empty_like(coords_in_line)
+        topo_icon = np.empty_like(coords_in_line)
+#
+        jj = 0
+        for j in coords_in_line:
+            ii=0
+            for i in ccoords:
+                dist[ii] = haversine(i[1],i[0],j[1],j[0]) #km
+                ii=ii+1
+            indices = np.where(dist < dx )  #.26 grid resolution
+            bb = np.argmin(dist[indices])
+            indices = np.squeeze(np.asanyarray(indices))
+            points_icon[jj] = indices[bb] #Closer points in Icon
+            jj=jj+1
+            # print(jj)
+        np.savetxt(icon_gp_file, points_icon, delimiter=",")   
+
+        #-- Obtain the coordinates in ICON + the values for the diff sfc quantities
+
+    topo_icon = np.empty_like(coords_in_line)
+    ii = 0
+    for i in (points_icon[:,0]):
+        points_icon_coords[ii,:] = (ccoords[int(i)]) #Coordinates in ICON
+        topo_icon[ii,:] = topo[int(i)] #Topo values for that coordinates
+        ii = ii+1
+
+    np.savetxt('grid_coord.csv', points_icon_coords, delimiter=",")
+    
+    #-- Def new x-array to plot the data
+
+    cross_x = np.empty_like(coords_in_line)
+    dim_coords_in_line = coords_in_line.shape 
+
+    for i in range(0,dim_coords_in_line[0]-1):
+        cross_x[i,0] = haversine(coords_in_line[i,1], coords_in_line[i,0],
+                               coords_in_line[i+1,1], coords_in_line[i+1,0])
+        cross_x[i,1] = sum(cross_x[0:i,0])
+    #-- last item
+    cross_x[-1,1] = sum(cross_x[0:i+1,0])
+    #
+
+    #-- Interpolation (regridding) for sfc data
+    zz = topo_icon[:,0]
+    ter = griddata(points_icon_coords, zz, coords_in_line, method=interp_meth)    
+    
+    #-- Interpolation 3D variables
+
+    #-- Def some arrays
+    var_icon = np.empty_like(coords_in_line)
+    dim_var_icon = var_icon.shape
+    dim_var = var.shape
+    regrid_var = np.empty((dim_var[0],dim_var_icon[0]))
+    
+    z_icon = np.empty_like(coords_in_line)
+    regrid_z = np.empty((dim_var[0],dim_var_icon[0]))
+
+    for k in range(0,dim_var[0]-1):
+        ii = 0
+        for i in (points_icon[:,0]):
+            points_icon_coords[ii,:] = (ccoords[int(i)])
+            var_icon[ii,:] = var[dim_var[0]-1-k,int(i)]
+            z_icon[ii,:] = z[dim_var[0]-1-k,int(i)]
+            ii = ii+1
+    
+        var_new = var_icon[:,0]
+        zz = z_icon[:,0]
+    
+        regrid_var[k,:] = griddata(points_icon_coords, var_new, coords_in_line, method=interp_meth)
+        regrid_z[k,:] = griddata(points_icon_coords, zz, coords_in_line, method=interp_meth)/1000 # in km
+    return regrid_var,regrid_z,ter,cross_x
+# 3d var, vertical grid, 2d var, horizontal grid
+#*************************************************************************************************
+
 
 #*************************************************************************************************
 #-- function to get the closer gp to coordinate
@@ -80,6 +252,7 @@ def cross_section(A, B, Step, with_file, icon_gp_file,clon,clat,dx,topo,var,z,in
     
     # print(str(x1),str(x2))
     if x1 > x2:           # x2 must be the bigger one here
+        print('x1>x2')
         x1, x2 = x2, x1
         y1, y2 = y2, y1
     #-- getting the diff coordinates
@@ -89,7 +262,18 @@ def cross_section(A, B, Step, with_file, icon_gp_file,clon,clat,dx,topo,var,z,in
             X[i] = x
             y = (y1-y2)/(x1-x2) * (x - x1) + y1
             Y[i] = y
+    elif x1 < x2:
+        print('x1<x2')
+        # no need to change x1 with x2
+    #-- getting the diff coordinates
+        for i in range(int((x2-x1)/STEP) + 1):
+            #print(i)
+            x = x1 + i*STEP
+            X[i] = x
+            y = (y1-y2)/(x1-x2) * (x - x1) + y1
+            Y[i] = y
     elif x1 == x2:
+        print('x1=x2 ')
         x1, x2 = x2, x1
         y1, y2 = y2, y1
         for i in range(int((y2-y1)/STEP) + 1):
@@ -97,7 +281,8 @@ def cross_section(A, B, Step, with_file, icon_gp_file,clon,clat,dx,topo,var,z,in
             Y[i] = y
             x = x1
             X[i] = x
-        
+
+
     #-- storing the coordinates in an array
     coords_in_line = np.empty([i+1,2])
     coords_in_line[:-1,1] = X[:i]
@@ -198,6 +383,7 @@ def cross_section(A, B, Step, with_file, icon_gp_file,clon,clat,dx,topo,var,z,in
 #*************************************************************************************************
 
 ############################################ ACROSS ALONG WIND FUNCTION ######################################
+############################################ ACROSS ALONG WIND FUNCTION ######################################
 def get_components_along_perp(u, v, lats_along, lons_along, direction='along'):
     '''
     Function to calculate the wind speed along or perpenticulat to the cross
@@ -254,6 +440,7 @@ def get_components_along_perp(u, v, lats_along, lons_along, direction='along'):
     return ff_along, ff_perp
 
 
+
 ################################# DEFINING CS #######################################
 # cross section metadata
 def get_vcs(line,pdate):
@@ -267,7 +454,11 @@ def get_vcs(line,pdate):
     # standard nc file
     lt = tf.get_lt(pdate, dt.datetime(2019,9,12,12,00))
     filename = tf.lfff_name(lt)
-    ncfile = xr.open_dataset('/store/s83/tlezuo/RUN2_reference/out_std/'+filename)
+# run2
+    # ncfile = xr.open_dataset('/store/s83/tlezuo/RUN2_reference/out_std/'+filename)
+
+# run5
+    ncfile = xr.open_dataset('/store/s83/tlezuo/RUN5_extended/out_std/'+filename)
 
     ################################# GET CS #######################################
     # prepare var arrays
@@ -362,6 +553,8 @@ def plot_vcs(VCS,line,pdate,pvar,ax,cbar_plot):
     return ax
 
 
+
+
 ## GET UNIVERSAL DATA ##
 # extfile: get topography and latlon grid
 extfile = xr.open_dataset('/store/s83/tlezuo/external_parameter_mch_ICON_1E_R19B08_DOM1.nc')
@@ -373,22 +566,29 @@ constfile = xr.open_dataset('/store/s83/tlezuo/RUN2_reference/lfff00000000c.nc')
 z_CTRL = np.squeeze(constfile['HHL'].values)
 
 
-VCS_lines = =[lf.VCS_hai,lf.VCS_up_valley,lf.VCS_down_valley,lf.VCS_down_valley,lf.VCS_alp]
+########################################################## 1 timestep, multiple vcs ##########################################################
+#################################### DECIDE #########################################
+# cross sections
+VCS_lines = [lf.VCS_hai,lf.VCS_up_valley,lf.VCS_kols,lf.VCS_down_valley,lf.VCS_alp,lf.VCS_kuf]
 # get string for name
 VCS_lines_str = ''
 for line in VCS_lines:
     VCS_lines_str += line.name[4]
-# fixedd dates
+
+# time
 startdate_model = dt.datetime(2019,9,12,12,00)
-enddate_model = dt.datetime(2019,9,14,00,00)
+enddate_model = dt.datetime(2019,9,14,12,00)
 pdates_list = pd.date_range(startdate_model,enddate_model,freq='30min')
+
+# variable
 pvar = vf.VEL_normal
+
 
 #################################################### LOOP 1 time #########################################
 # time
 for pdate in pdates_list:
 #################################################### LOOP 2 VCSs #########################################
-    fig,ax=plt.subplots(1,5,figsize=(25, 5))
+    fig,ax=plt.subplots(1,6,figsize=(25, 5))
 
     for line,ax in zip(VCS_lines,ax.flatten()):
         VCS = get_vcs(line,pdate)

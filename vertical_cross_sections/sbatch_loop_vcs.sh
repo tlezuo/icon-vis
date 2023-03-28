@@ -7,4 +7,4 @@
 #SBATCH --partition=postproc
 #SBATCH --cpus-per-task=12
 
-python vcs_plot_loop.py
+python vcs_plot_loop_single.py

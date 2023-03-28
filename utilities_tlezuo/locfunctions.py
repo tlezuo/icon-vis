@@ -80,10 +80,10 @@ local_area.locmarks.extend(['hoch', 'kols', 'weer', 'egg', 'weer', 'terf', 'arb'
 # 2)c) domain visualisation
 domain_vis = Area_coordinates()
 domain_vis.name = 'domain_vis'
-domain_vis.latmin = 40
-domain_vis.lonmin = 0
-domain_vis.latmax = 50
-domain_vis.lonmax = 20
+domain_vis.latmin = 35
+domain_vis.lonmin = -10
+domain_vis.latmax = 55
+domain_vis.lonmax = 30
 domain_vis.locmarks = []
 domain_vis.locmarks.extend(['inn'])
 
@@ -116,6 +116,15 @@ nies.latmax = 46.69
 nies.lonmax = 7.71
 nies.locmarks = []
 
+# 2)c) local local area: only stations visible
+lower_valley = Area_coordinates()
+lower_valley.name = 'lower Inn Valley'
+lower_valley.latmin = 47.141435
+lower_valley.lonmin = 11.075468
+lower_valley.latmax = 47.983338
+lower_valley.lonmax = 12.360099
+lower_valley.locmarks = []
+
 # 2) vertical cross sections
 # MY OWN
 VCS_kols = VC_coordinates('VCS at Kolsass' , 'VCS_KOL', 45,
@@ -131,6 +140,9 @@ VCS_kuf = VC_coordinates('VCS at Kufstein' , 'VCS_KUF', 45,
                          47.657884, 11.944264, 'Ruchenkopf',
                          47.516713, 12.426752,'St Johann', )
 VCS_border = VC_coordinates('VCS at border' , 'VCS_Border', 45,
+                         47.720323, 11.867407, 'Schielersee',
+                         47.730065, 12.463968,'Unterwössen', )
+VCS_plain = VC_coordinates('VCS at border' , 'VCS_Border', 45,
                          47.720323, 11.867407, 'Schielersee',
                          47.730065, 12.463968,'Unterwössen', )
 
