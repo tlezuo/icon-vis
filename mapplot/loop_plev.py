@@ -42,7 +42,7 @@ simdate = dt.datetime(2019,9,12,12,00)
 grid_file = '../data/example_data/grids/ICON-1E_DOM01.nc'
 
 ###################################### DECIDE #######################################
-area=lf.lower_valley
+area=lf.eastern_alps
 pc_innvalley_list = ['ALP','RIN','UNI','kols']
 # plevs_list = [70000., 75000., 80000., 85000., 90000.,92500., 95000.]
 plevs_list = [85000., 95000.]
